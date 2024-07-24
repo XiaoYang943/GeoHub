@@ -1,112 +1,97 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+    <el-form ref="queryForm" :inline="true" :model="queryParams" label-width="68px">
       <el-form-item>
-        <el-button type="primary" icon="el-icon-upload" size="mini" @click="upload" v-hasPermi="['system:file:upload']">上传</el-button>
+        <el-button v-hasPermi="['system:file:upload']" icon="el-icon-upload" size="mini" type="primary" @click="upload">
+          上传
+        </el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['system:filelist:remove']"
-        >删除</el-button>
+            v-hasPermi="['system:filelist:remove']"
+            :disabled="multiple"
+            icon="el-icon-delete"
+            plain
+            size="mini"
+            type="danger"
+            @click="handleDelete"
+        >删除
+        </el-button>
       </el-col>
-<!--      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['background:filelist:export']"
-        >导出</el-button>
-      </el-col>-->
+      <!--      <el-col :span="1.5">
+              <el-button
+                type="warning"
+                icon="el-icon-download"
+                size="mini"
+                @click="handleExport"
+                v-hasPermi="['background:filelist:export']"
+              >导出</el-button>
+            </el-col>-->
     </el-row>
 
     <el-table :data="filelistList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="50" align="center" />
-      <el-table-column label="编号" align="center" prop="id" />
-      <el-table-column label="文件名" align="center" prop="filename" />
-      <el-table-column label="本地地址" align="center" prop="location" />
-      <el-table-column label="文件总大小" align="center" prop="totalSize" :formatter="storageFormatter"/>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column align="center" type="selection" width="50"/>
+      <el-table-column align="center" label="编号" prop="id"/>
+      <el-table-column align="center" label="文件名" prop="filename"/>
+      <el-table-column align="center" label="本地地址" prop="location"/>
+      <el-table-column :formatter="storageFormatter" align="center" label="文件总大小" prop="totalSize"/>
+      <el-table-column align="center" class-name="small-padding fixed-width" label="操作">
         <template slot-scope="scope">
           <el-button
+              icon="el-icon-edit"
               size="mini"
               type="text"
-              icon="el-icon-edit"
               @click="handleDownload(scope.row)"
 
-          >下载</el-button>
+          >下载
+          </el-button>
         </template>
         <!--        v-hasPermi="['system:filelist:download']"-->
       </el-table-column>
     </el-table>
 
     <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
+        v-show="total>0"
+        :limit.sync="queryParams.pageSize"
+        :page.sync="queryParams.pageNum"
+        :total="total"
+        @pagination="getList"
     />
-
-    <!-- 添加或修改已上传文件列表对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px">
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="文件名" prop="filename">
-          <el-input v-model="form.filename" placeholder="请输入文件名" />
-        </el-form-item>
-        <el-form-item label="唯一标识,MD5" prop="identifier">
-          <el-input v-model="form.identifier" placeholder="请输入唯一标识,MD5" />
-        </el-form-item>
-        <el-form-item label="链接" prop="url">
-          <el-input v-model="form.url" placeholder="请输入链接" />
-        </el-form-item>
-        <el-form-item label="本地地址" prop="location">
-          <el-input v-model="form.location" placeholder="请输入本地地址" />
-        </el-form-item>
-        <el-form-item label="文件总大小" prop="totalSize">
-          <el-input v-model="form.totalSize" placeholder="请输入文件总大小" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 
   <!-- 上传 -->
   <uploader
       ref="uploader"
-      :options="options"
       :autoStart="false"
+      :options="options"
+      class="uploader-app"
       @file-added="onFileAdded"
       @file-success="onFileSuccess"
       @file-progress="onFileProgress"
-      @file-error="onFileError"
-      class="uploader-app">
+      @file-error="onFileError">
     <uploader-unsupport></uploader-unsupport>
-    <uploader-btn id="global-uploader-btn" :attrs="attrs" ref="uploadBtn" v-show="false">选择文件</uploader-btn>
+    <uploader-btn v-show="false" id="global-uploader-btn" ref="uploadBtn" :attrs="attrs">选择文件</uploader-btn>
   </uploader>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import {fileMerge} from "@/api/system/file/fileuploader/fileuploader.js";
-import {ACCEPT_CONFIG} from "@/assets/js/config.js";
 import SparkMD5 from "spark-md5";
-import { ref, reactive, onMounted } from 'vue';
-import { listFilelist, delFilelist, addFilelist, updateFilelist, exportFilelist } from "@/api/system/file/filelist";
-import Bus from '../../../../assets/js/bus'
-import { getToken } from '@/utils/auth';
+import {onMounted, reactive, ref} from 'vue';
+import {addFilelist, delFilelist, listFilelist, updateFilelist} from "@/api/system/file/filelist";
+import {getToken} from '@/utils/auth';
 
+const ACCEPT_CONFIG = {
+  image: ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
+  video: ['.mp4', '.rmvb', '.mkv', '.wmv', '.flv'],
+  document: ['.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.tif', '.tiff', '.zip', '.7z', '.rar'],
+  getAll() {
+    return [...this.image, ...this.video, ...this.document]
+  },
+};
 const total = ref(0);
 const filelistList = ref([]);
 const open = ref(false);
@@ -133,9 +118,9 @@ const form = reactive({
 });
 
 const rules = {
-  filename: [{ required: true, message: '文件名不能为空', trigger: 'blur' }],
-  identifier: [{ required: true, message: '唯一标识,MD5不能为空', trigger: 'blur' }],
-  url: [{ required: true, message: '链接不能为空', trigger: 'blur' }]
+  filename: [{required: true, message: '文件名不能为空', trigger: 'blur'}],
+  identifier: [{required: true, message: '唯一标识,MD5不能为空', trigger: 'blur'}],
+  url: [{required: true, message: '链接不能为空', trigger: 'blur'}]
 };
 
 const baseApi = import.meta.env.VITE_APP_BASE_API;
@@ -149,7 +134,8 @@ const options = ref({
   headers: {
     Authorization: ''
   },
-  query: () => {}
+  query: () => {
+  }
 });
 
 const attrs = ref({
@@ -162,7 +148,6 @@ const uploadBtn = ref(null);
 const onFileAdded = (file) => {
   panelShow.value = true;
   computeMD5(file);
-  Bus.emit('fileAdded');
 };
 
 //上传过程中，会不断触发file-progress上传进度的回调
@@ -180,7 +165,7 @@ const onFileSuccess = (rootFile, file, response, chunk) => {
     }
     fileMerge(param).then(res => {
       // 文件合并成功
-      Bus.emit('fileSuccess');
+      console.log("res", res)
     }).catch(e => {
       console.log("合并异常,重新发起请求,文件名为:", file.name)
       //由于网络或服务器原因,导致合并过程中断线,此时如果不重新发起请求,就会进入失败的状态,导致该文件无法重试
@@ -188,7 +173,6 @@ const onFileSuccess = (rootFile, file, response, chunk) => {
     });
     // 不需要合并
   } else {
-    Bus.emit('fileSuccess');
     console.log('上传成功');
   }
 };
@@ -230,7 +214,7 @@ function computeMD5(file) {
   });
 
   fileReader.onerror = function () {
-    this.error(`文件${file.name}读取出错，请检查该文件`)
+    // this.error(`文件${file.name}读取出错，请检查该文件`)
     file.cancel();
   };
 
@@ -252,17 +236,19 @@ function computeMD5Success(md5, file) {
 onMounted(() => {
   getList();
 });
+
 function storageFormatter(row) {
-  let totalSize= row.totalSize;
+  let totalSize = row.totalSize;
   //1073741824为1G
-  if(totalSize>=1073741824){
-    return Math.round((row.totalSize/1073741824)*100)/100+"G"
-  }else if(totalSize>=1048576){ //1048576为1M
-    return  Math.round((row.totalSize/1048576)*100)/100+"M"
-  }else{
-    return  Math.round((row.totalSize/1024)*100)/100+"K"
+  if (totalSize >= 1073741824) {
+    return Math.round((row.totalSize / 1073741824) * 100) / 100 + "G"
+  } else if (totalSize >= 1048576) { //1048576为1M
+    return Math.round((row.totalSize / 1048576) * 100) / 100 + "M"
+  } else {
+    return Math.round((row.totalSize / 1024) * 100) / 100 + "K"
   }
 }
+
 function upload() {
   console.log("upload")
   options.value.headers.Authorization = 'Bearer ' + getToken();
@@ -278,57 +264,12 @@ function getList() {
   });
 }
 
-
-
-// 取消按钮
-function cancel() {
-  open.value = false;
-  reset();
-}
-
-
-// 表单重置
-function reset() {
-  form.value = {
-    id: undefined,
-    filename: undefined,
-    identifier: undefined,
-    url: undefined,
-    location: undefined,
-    totalSize: undefined
-  };
-  this.resetForm("form");
-}
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
   ids.value = selection.map(item => item.id)
   multiple.value = !selection.length
 }
 
-/** 提交按钮 */
-const submitForm = () => {
-  if (form.value.id != undefined) {
-    updateFilelist(form.value).then(response => {
-      if (response.code === 200) {
-        this.msgSuccess("修改成功");
-        open.value = false;
-        getList();
-      } else {
-        this.msgError(response.msg);
-      }
-    });
-  } else {
-    addFilelist(this.form).then(response => {
-      if (response.code === 200) {
-        this.msgSuccess("新增成功");
-        open.value = false;
-        getList();
-      } else {
-        this.msgError(response.msg);
-      }
-    });
-  }
-}
 
 /** 删除按钮操作 */
 function handleDelete(row) {
@@ -337,13 +278,15 @@ function handleDelete(row) {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
-  }).then(function() {
+  }).then(function () {
     return delFilelist(ids);
   }).then(() => {
     getList();
-    this.msgSuccess("删除成功");
-  }).catch(function() {});
+    // this.msgSuccess("删除成功");
+  }).catch(function () {
+  });
 }
+
 /** 导出按钮操作 */
 // function handleExport() {
 //   const queryParams = this.queryParams;
@@ -361,9 +304,9 @@ function handleDelete(row) {
 /** 下载操作 因上传文件较大时，下载时也需要更多的时间，所以自定义超时时间 */
 function handleDownload(row) {
   //const queryParams = this.queryParams;
-  const loca=row.location;
+  const loca = row.location;
   this.download('system/filelist/download', {
-    'location':loca
-  }, row.filename,{timeout: 180000})
+    'location': loca
+  }, row.filename, {timeout: 180000})
 }
 </script>

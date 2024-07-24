@@ -2,51 +2,57 @@
   <div id="tags-view-container" class="tags-view-container">
     <scroll-pane ref="scrollPaneRef" class="tags-view-wrapper" @scroll="handleScroll">
       <router-link
-        v-for="tag in visitedViews"
-        :key="tag.path"
-        :data-path="tag.path"
-        :class="isActive(tag) ? 'active' : ''"
-        :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-        class="tags-view-item"
-        :style="activeStyle(tag)"
-        @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''"
-        @contextmenu.prevent="openMenu(tag, $event)"
+          v-for="tag in visitedViews"
+          :key="tag.path"
+          :class="isActive(tag) ? 'active' : ''"
+          :data-path="tag.path"
+          :style="activeStyle(tag)"
+          :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+          class="tags-view-item"
+          @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''"
+          @contextmenu.prevent="openMenu(tag, $event)"
       >
         {{ tag.title }}
         <span v-if="!isAffix(tag)" @click.prevent.stop="closeSelectedTag(tag)">
-          <close class="el-icon-close" style="width: 1em; height: 1em;vertical-align: middle;" />
+          <close class="el-icon-close" style="width: 1em; height: 1em;vertical-align: middle;"/>
         </span>
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
       <li @click="refreshSelectedTag(selectedTag)">
-        <refresh-right style="width: 1em; height: 1em;" /> 刷新页面
+        <refresh-right style="width: 1em; height: 1em;"/>
+        刷新页面
       </li>
       <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">
-        <close style="width: 1em; height: 1em;" /> 关闭当前
+        <close style="width: 1em; height: 1em;"/>
+        关闭当前
       </li>
       <li @click="closeOthersTags">
-        <circle-close style="width: 1em; height: 1em;" /> 关闭其他
+        <circle-close style="width: 1em; height: 1em;"/>
+        关闭其他
       </li>
       <li v-if="!isFirstView()" @click="closeLeftTags">
-        <back style="width: 1em; height: 1em;" /> 关闭左侧
+        <back style="width: 1em; height: 1em;"/>
+        关闭左侧
       </li>
       <li v-if="!isLastView()" @click="closeRightTags">
-        <right style="width: 1em; height: 1em;" /> 关闭右侧
+        <right style="width: 1em; height: 1em;"/>
+        关闭右侧
       </li>
       <li @click="closeAllTags(selectedTag)">
-        <circle-close style="width: 1em; height: 1em;" /> 全部关闭
+        <circle-close style="width: 1em; height: 1em;"/>
+        全部关闭
       </li>
     </ul>
   </div>
 </template>
 
 <script setup>
-import ScrollPane from './ScrollPane'
-import { getNormalPath } from '@/utils/ruoyi'
-import useTagsViewStore from '@/store/modules/tagsView'
-import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
+import useSettingsStore from '@/store/modules/settings.js'
+import useTagsViewStore from '@/store/modules/tagsView'
+import {getNormalPath} from '@/utils/ruoyi'
+import ScrollPane from './ScrollPane'
 
 const visible = ref(false);
 const top = ref(0);
@@ -55,7 +61,7 @@ const selectedTag = ref({});
 const affixTags = ref([]);
 const scrollPaneRef = ref(null);
 
-const { proxy } = getCurrentInstance();
+const {proxy} = getCurrentInstance();
 const route = useRoute();
 const router = useRouter();
 
@@ -122,7 +128,7 @@ function filterAffixTags(routes, basePath = '') {
         fullPath: tagPath,
         path: tagPath,
         name: route.name,
-        meta: { ...route.meta }
+        meta: {...route.meta}
       })
     }
     if (route.children) {
@@ -141,13 +147,13 @@ function initTags() {
   for (const tag of res) {
     // Must have tag name
     if (tag.name) {
-       useTagsViewStore().addVisitedView(tag)
+      useTagsViewStore().addVisitedView(tag)
     }
   }
 }
 
 function addTags() {
-  const { name } = route
+  const {name} = route
   if (name) {
     useTagsViewStore().addView(route)
     if (route.meta.link) {
@@ -179,7 +185,7 @@ function refreshSelectedTag(view) {
 }
 
 function closeSelectedTag(view) {
-  proxy.$tab.closePage(view).then(({ visitedViews }) => {
+  proxy.$tab.closePage(view).then(({visitedViews}) => {
     if (isActive(view)) {
       toLastView(visitedViews, view)
     }
@@ -203,14 +209,15 @@ function closeLeftTags() {
 }
 
 function closeOthersTags() {
-  router.push(selectedTag.value).catch(() => { });
+  router.push(selectedTag.value).catch(() => {
+  });
   proxy.$tab.closeOtherPage(selectedTag.value).then(() => {
     moveToCurrentTag()
   })
 }
 
 function closeAllTags(view) {
-  proxy.$tab.closeAllPage().then(({ visitedViews }) => {
+  proxy.$tab.closeAllPage().then(({visitedViews}) => {
     if (affixTags.value.some(tag => tag.path === route.path)) {
       return
     }
@@ -227,7 +234,7 @@ function toLastView(visitedViews, view) {
     // you can adjust it according to your needs.
     if (view.name === 'Dashboard') {
       // to reload home page
-      router.replace({ path: '/redirect' + view.fullPath })
+      router.replace({path: '/redirect' + view.fullPath})
     } else {
       router.push('/')
     }
@@ -268,6 +275,7 @@ function handleScroll() {
   background: #fff;
   border-bottom: 1px solid #d8dce5;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
@@ -282,16 +290,20 @@ function handleScroll() {
       font-size: 12px;
       margin-left: 5px;
       margin-top: 4px;
+
       &:first-of-type {
         margin-left: 15px;
       }
+
       &:last-of-type {
         margin-right: 15px;
       }
+
       &.active {
         background-color: #42b983;
         color: #fff;
         border-color: #42b983;
+
         &::before {
           content: "";
           background: #fff;
@@ -305,6 +317,7 @@ function handleScroll() {
       }
     }
   }
+
   .contextmenu {
     margin: 0;
     background: #fff;
@@ -317,10 +330,12 @@ function handleScroll() {
     font-weight: 400;
     color: #333;
     box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+
     li {
       margin: 0;
       padding: 7px 16px;
       cursor: pointer;
+
       &:hover {
         background: #eee;
       }
@@ -341,11 +356,13 @@ function handleScroll() {
       text-align: center;
       transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
       transform-origin: 100% 50%;
+
       &:before {
         transform: scale(0.6);
         display: inline-block;
         vertical-align: -3px;
       }
+
       &:hover {
         background-color: #b4bccc;
         color: #fff;
