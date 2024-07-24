@@ -699,3 +699,37 @@ create table gen_table_column (
   update_time       datetime                                   comment '更新时间',
   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
+
+-- ----------------------------
+-- 20、文件列表
+-- ----------------------------
+drop table if exists sys_filelist;
+create table sys_filelist
+(
+    id         bigint auto_increment comment '主键ID'
+        primary key,
+    filename   varchar(200) not null comment '文件名',
+    identifier varchar(50)  not null comment '唯一标识,MD5',
+    url        varchar(200) not null comment '链接',
+    location   varchar(200) null comment '本地地址',
+    total_size bigint       null comment '文件总大小',
+    constraint FILE_UNIQUE_KEY
+        unique (filename, identifier)
+) engine=innodb auto_increment=1 comment = '文件列表';
+-- ----------------------------
+-- 21、文件分片记录表
+-- ----------------------------
+drop table if exists sys_chunk;
+create table sys_chunk
+(
+    id                 bigint auto_increment comment '主键ID'
+        primary key,
+    chunk_number       int          not null comment '文件块编号',
+    chunk_size         bigint       not null comment '分块大小',
+    current_chunk_size bigint       not null comment '当前分块大小',
+    filename           varchar(255) not null comment '文件名',
+    identifier         varchar(255) not null comment '文件标识,MD5',
+    relative_path      varchar(255) not null comment '相对路径',
+    total_chunks       int          not null comment '总块数',
+    total_size         bigint       not null comment '总大小'
+) engine=innodb auto_increment=1 comment = '文件分片记录表';

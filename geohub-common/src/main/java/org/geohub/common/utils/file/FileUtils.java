@@ -288,4 +288,25 @@ public class FileUtils
         String baseName = FilenameUtils.getBaseName(fileName);
         return baseName;
     }
+
+
+    // 递归删除文件夹及其子目录和文件
+    public static void deleteFolder(File folder) {
+        if (folder.exists()) {
+            File[] files = folder.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        // 递归删除子文件夹及其子目录和文件
+                        deleteFolder(file);
+                    } else {
+                        // 删除文件
+                        file.delete();
+                    }
+                }
+            }
+            // 删除文件夹
+            folder.delete();
+        }
+    }
 }

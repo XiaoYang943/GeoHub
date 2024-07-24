@@ -1395,3 +1395,17 @@ alter sequence sys_menu_menu_id_seq  restart  2000;
 alter sequence sys_notice_notice_id_seq  restart  3;
 alter sequence sys_post_post_id_seq  restart  5;
 alter sequence sys_role_role_id_seq  restart  3;
+
+
+CREATE TABLE public.sys_chunk (
+      id int8 NOT NULL,
+      chunk_number int4 NOT NULL,
+      chunk_size int8 NOT NULL,
+      current_chunk_size int8 NOT NULL,
+      filename varchar(255) NOT NULL,
+      identifier varchar(255) NOT NULL,
+      relative_path varchar(255) NOT NULL,
+      total_chunks int4 NOT NULL,
+      total_size int8 NOT NULL,
+      CONSTRAINT sys_chunk_pkey PRIMARY KEY (id)
+);
