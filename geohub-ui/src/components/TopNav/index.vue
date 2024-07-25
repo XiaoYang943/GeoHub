@@ -32,13 +32,14 @@
   </el-menu>
 </template>
 
-<script setup>
-import {constantRoutes} from "@/router"
+<script setup lang="ts">
+import {constantRoutes} from "@/router/index"
 import useAppStore from '@/store/modules/app'
 import usePermissionStore from '@/store/modules/permission'
-import useSettingsStore from '@/store/modules/settings.js'
-import {isHttp} from '@/utils/validate.js'
-
+import useSettingsStore from '@/store/modules/settings'
+import {isHttp} from '@/utils/validate'
+import {computed,ref,onMounted} from "vue"
+import {useRoute, useRouter} from "vue-router";
 // 顶部栏初始数
 const visibleNumber = ref(null);
 // 当前激活菜单的 index

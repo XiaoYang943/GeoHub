@@ -169,7 +169,7 @@
                   <el-form-item label="请求参数：">{{ form.operParam }}</el-form-item>
                </el-col>
                <el-col :span="24">
-                  <el-form-item label="返回参数：">{{ form.jsonResult }}</el-form-item>
+                  <el-form-item label="返回参数：">{{ formonResult }}</el-form-item>
                </el-col>
                <el-col :span="8">
                   <el-form-item label="操作状态：">
@@ -200,7 +200,7 @@
 <script setup name="Operlog">
 import { list, delOperlog, cleanOperlog } from "@/api/monitor/operlog";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 const { sys_oper_type, sys_common_status } = proxy.useDict("sys_oper_type","sys_common_status");
 
 const operlogList = ref([]);

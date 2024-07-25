@@ -26,12 +26,12 @@
   </div>
 </template>
 
-<script setup>
-import {getToken} from "@/utils/auth.js";
+<script setup lang="ts">
+import {getToken} from "@/utils/auth";
 import {QuillEditor} from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
-
-const {proxy} = getCurrentInstance();
+import {getCurrentInstance,computed,ref,onMounted,watch} from "vue"
+const {proxy} = getCurrentInstance()!;
 
 const quillEditorRef = ref();
 const uploadUrl = ref(import.meta.env.VITE_APP_BASE_API + "/common/upload"); // 上传的图片服务器地址

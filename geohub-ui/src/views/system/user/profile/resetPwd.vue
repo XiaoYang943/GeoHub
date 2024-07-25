@@ -19,7 +19,7 @@
 <script setup>
 import { updateUserPwd } from "@/api/system/user";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 
 const user = reactive({
   oldPassword: undefined,

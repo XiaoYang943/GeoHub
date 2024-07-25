@@ -30,11 +30,11 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {getNormalPath} from '@/utils/ruoyi'
-import {isExternal} from '@/utils/validate.js'
+import {isExternal} from '@/utils/validate'
 import AppLink from './Link'
-
+import {ref} from "vue"
 const props = defineProps({
   // route object
   item: {
@@ -81,7 +81,7 @@ function hasOneShowingChild(children = [], parent) {
   return false
 };
 
-function resolvePath(routePath, routeQuery) {
+function resolvePath(routePath:string, routeQuery:string) {
   if (isExternal(routePath)) {
     return routePath
   }
@@ -95,7 +95,7 @@ function resolvePath(routePath, routeQuery) {
   return getNormalPath(props.basePath + '/' + routePath)
 }
 
-function hasTitle(title) {
+function hasTitle(title:string) {
   if (title.length > 5) {
     return title;
   } else {

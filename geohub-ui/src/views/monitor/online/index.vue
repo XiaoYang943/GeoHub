@@ -60,7 +60,7 @@
 <script setup name="Online">
 import { forceLogout, list as initData } from "@/api/monitor/online";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 
 const onlineList = ref([]);
 const loading = ref(true);

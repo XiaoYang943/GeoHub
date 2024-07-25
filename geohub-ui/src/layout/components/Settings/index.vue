@@ -82,13 +82,13 @@
 
 </template>
 
-<script setup>
+<script setup lang="ts">
 import useAppStore from '@/store/modules/app'
 import usePermissionStore from '@/store/modules/permission'
-import useSettingsStore from '@/store/modules/settings.js'
-import {handleThemeStyle} from '@/utils/theme.ts'
-
-const {proxy} = getCurrentInstance();
+import useSettingsStore from '@/store/modules/settings'
+import {handleThemeStyle} from '@/utils/theme'
+import {getCurrentInstance,ref,computed} from "vue"
+const {proxy} = getCurrentInstance()!;
 const appStore = useAppStore()
 const settingsStore = useSettingsStore()
 const permissionStore = usePermissionStore()
@@ -111,7 +111,7 @@ function themeChange(val) {
   handleThemeStyle(val);
 }
 
-function handleTheme(val) {
+function handleTheme(val:string) {
   settingsStore.sideTheme = val;
   sideTheme.value = val;
 }

@@ -47,12 +47,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import usePermissionStore from '@/store/modules/permission'
-import useSettingsStore from '@/store/modules/settings.js'
+import useSettingsStore from '@/store/modules/settings'
 import useTagsViewStore from '@/store/modules/tagsView'
 import {getNormalPath} from '@/utils/ruoyi'
-import ScrollPane from './ScrollPane'
+import {useRoute, useRouter} from "vue-router";
+import {getCurrentInstance,ref,computed,watch,onMounted} from "vue"
 
 const visible = ref(false);
 const top = ref(0);
@@ -61,7 +62,7 @@ const selectedTag = ref({});
 const affixTags = ref([]);
 const scrollPaneRef = ref(null);
 
-const {proxy} = getCurrentInstance();
+const {proxy} = getCurrentInstance()!;
 const route = useRoute();
 const router = useRouter();
 
@@ -87,11 +88,11 @@ onMounted(() => {
   addTags()
 })
 
-function isActive(r) {
+function isActive(r:any) {
   return r.path === route.path
 }
 
-function activeStyle(tag) {
+function activeStyle(tag:any) {
   if (!isActive(tag)) return {};
   return {
     "background-color": theme.value,
@@ -99,7 +100,7 @@ function activeStyle(tag) {
   };
 }
 
-function isAffix(tag) {
+function isAffix(tag:any) {
   return tag.meta && tag.meta.affix
 }
 

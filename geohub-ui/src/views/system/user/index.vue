@@ -360,10 +360,10 @@ import {
   resetUserPwd,
   updateUser
 } from "@/api/system/user";
-import {getToken} from "@/utils/auth.js";
+import {getToken} from "@/utils/auth";
 
 const router = useRouter();
-const {proxy} = getCurrentInstance();
+const {proxy} = getCurrentInstance()!;
 const {sys_normal_disable, sys_user_sex} = proxy.useDict("sys_normal_disable", "sys_user_sex");
 
 const userList = ref([]);

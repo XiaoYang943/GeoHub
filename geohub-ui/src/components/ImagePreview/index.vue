@@ -16,9 +16,9 @@
   </el-image>
 </template>
 
-<script setup>
-import {isExternal} from "@/utils/validate.js";
-
+<script setup lang="ts">
+import {isExternal} from "@/utils/validate";
+import {computed} from "vue"
 const props = defineProps({
   src: {
     type: String,

@@ -69,7 +69,7 @@ const props = defineProps({
   }
 });
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
 
 const userList = ref([]);

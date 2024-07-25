@@ -43,7 +43,7 @@ import ImagePreview from "@/components/ImagePreview"
 import TreeSelect from '@/components/TreeSelect'
 // 字典标签组件
 import DictTag from '@/components/DictTag'
-import uploader from './plugins/simpleUploader/index.js'
+import uploader from './plugins/simpleUploader'
 import $ from 'jquery'
 const app = createApp(App)
 

@@ -60,7 +60,7 @@ import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import TopNav from '@/components/TopNav'
 import useAppStore from '@/store/modules/app'
-import useSettingsStore from '@/store/modules/settings.js'
+import useSettingsStore from '@/store/modules/settings'
 import useUserStore from '@/store/modules/user'
 import {ElMessageBox} from 'element-plus'
 

@@ -162,12 +162,10 @@
 
 <script setup name="Gen">
 import { listTable, previewTable, delTable, genCode, synchDb } from "@/api/tool/gen";
-import router from "@/router";
-import importTable from "./importTable";
-import createTable from "./createTable";
+import router from "@/router/index";
 
 const route = useRoute();
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 
 const tableList = ref([]);
 const loading = ref(true);

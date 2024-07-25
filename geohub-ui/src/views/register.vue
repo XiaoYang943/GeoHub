@@ -75,12 +75,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ElMessageBox } from "element-plus";
 import { getCodeImg, register } from "@/api/login";
-
+import {useRouter} from "vue-router";
+import {getCurrentInstance,ref} from "vue"
 const router = useRouter();
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 
 const registerForm = ref({
   username: "",
@@ -123,7 +124,7 @@ function handleRegister() {
   proxy.$refs.registerRef.validate(valid => {
     if (valid) {
       loading.value = true;
-      register(registerForm.value).then(res => {
+      register(registerForm.value).then(() => {
         const username = registerForm.value.username;
         ElMessageBox.alert("<font color='red'>恭喜你，您的账号 " + username + " 注册成功！</font>", "系统提示", {
           dangerouslyUseHTMLString: true,
@@ -142,7 +143,7 @@ function handleRegister() {
 }
 
 function getCode() {
-  getCodeImg().then(res => {
+  getCodeImg().then((res:any) => {
     captchaEnabled.value = res.captchaEnabled === undefined ? true : res.captchaEnabled;
     if (captchaEnabled.value) {
       codeUrl.value = "data:image/gif;base64," + res.img;

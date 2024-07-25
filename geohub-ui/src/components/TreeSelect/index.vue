@@ -28,9 +28,9 @@
   </div>
 </template>
 
-<script setup>
-
-const { proxy } = getCurrentInstance();
+<script setup lang="ts">
+import {getCurrentInstance,computed,ref,nextTick,onMounted,watch} from "vue"
+const { proxy } = getCurrentInstance()!;
 
 const props = defineProps({
   /* 配置项 */

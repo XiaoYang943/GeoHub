@@ -14,9 +14,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { scrollTo } from '@/utils/scroll-to'
-
+import {computed} from "vue"
 const props = defineProps({
   total: {
     required: true,

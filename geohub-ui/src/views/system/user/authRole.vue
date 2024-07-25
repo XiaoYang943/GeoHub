@@ -49,7 +49,7 @@
 import { getAuthRole, updateAuthRole } from "@/api/system/user";
 
 const route = useRoute();
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 
 const loading = ref(true);
 const total = ref(0);

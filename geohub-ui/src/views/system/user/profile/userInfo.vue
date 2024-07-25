@@ -31,7 +31,7 @@ const props = defineProps({
   }
 });
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 
 const form = ref({});
 const rules = ref({

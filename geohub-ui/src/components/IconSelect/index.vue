@@ -23,9 +23,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import icons from './requireIcons'
-
+import {ref} from "vue"
 const props = defineProps({
   activeIcon: {
     type: String

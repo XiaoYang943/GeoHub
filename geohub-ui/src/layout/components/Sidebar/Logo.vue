@@ -18,10 +18,11 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import logo from '@/assets/logo/logo.png'
 import variables from '@/assets/styles/variables.module.scss'
-import useSettingsStore from '@/store/modules/settings.js'
+import useSettingsStore from '@/store/modules/settings'
+import {computed} from "vue";
 
 defineProps({
   collapse: {

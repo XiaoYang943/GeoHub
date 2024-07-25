@@ -11,8 +11,7 @@
   </section>
 </template>
 
-<script setup>
-import iframeToggle from "./IframeToggle/index"
+<script setup lang="ts">
 import useTagsViewStore from '@/store/modules/tagsView'
 
 const tagsViewStore = useTagsViewStore()

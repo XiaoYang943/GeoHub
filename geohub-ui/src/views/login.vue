@@ -73,7 +73,7 @@ import useUserStore from '@/store/modules/user'
 const userStore = useUserStore()
 const route = useRoute();
 const router = useRouter();
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 
 const loginForm = ref({
   username: "admin",

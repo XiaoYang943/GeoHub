@@ -127,7 +127,7 @@
 <script setup name="Logininfor">
 import { list, delLogininfor, cleanLogininfor, unlockLogininfor } from "@/api/monitor/logininfor";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 const { sys_common_status } = proxy.useDict("sys_common_status");
 
 const logininforList = ref([]);

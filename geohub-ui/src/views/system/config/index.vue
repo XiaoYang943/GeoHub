@@ -167,7 +167,7 @@
 <script setup name="Config">
 import { listConfig, getConfig, delConfig, addConfig, updateConfig, refreshCache } from "@/api/system/config";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 const { sys_yes_no } = proxy.useDict("sys_yes_no");
 
 const configList = ref([]);

@@ -15,9 +15,9 @@
 
 <script setup>
 import useAppStore from '@/store/modules/app'
-import useSettingsStore from '@/store/modules/settings.js'
+import useSettingsStore from '@/store/modules/settings'
 import {useWindowSize} from '@vueuse/core'
-import {AppMain, Navbar, Settings, TagsView} from './components'
+import {AppMain, Navbar, Settings, TagsView} from './components/index'
 import Sidebar from './components/Sidebar/index.vue'
 
 const settingsStore = useSettingsStore()

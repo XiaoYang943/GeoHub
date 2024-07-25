@@ -129,11 +129,11 @@
 <script setup name="GenEdit">
 import { getGenTable, updateGenTable } from "@/api/tool/gen";
 import { optionselect as getDictOptionselect } from "@/api/system/dict/type";
-import basicInfoForm from "./basicInfoForm";
-import genInfoForm from "./genInfoForm";
+import {useRoute} from "vue-router";
+import {getCurrentInstance} from "vue"
 
 const route = useRoute();
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 
 const activeName = ref("columnInfo");
 const tableHeight = ref(document.documentElement.scrollHeight - 245 + "px");

@@ -28,7 +28,7 @@ export function getFilelist(id: string) {
 }
 
 // 新增已上传文件列表
-export function addFilelist(data) {
+export function addFilelist(data:any) {
     return request({
         url: '/system/filelist',
         method: 'post',
@@ -37,7 +37,7 @@ export function addFilelist(data) {
 }
 
 // 修改已上传文件列表
-export function updateFilelist(data) {
+export function updateFilelist(data:any) {
     return request({
         url: '/system/filelist',
         method: 'put',
@@ -46,7 +46,7 @@ export function updateFilelist(data) {
 }
 
 // 删除已上传文件列表
-export function delFilelist(id) {
+export function delFilelist(id:string) {
     return request({
         url: '/system/filelist/' + id,
         method: 'delete'
@@ -54,7 +54,7 @@ export function delFilelist(id) {
 }
 
 // 导出已上传文件列表
-export function exportFilelist(query) {
+export function exportFilelist(query:any) {
     return request({
         url: '/system/filelist/export',
         method: 'get',

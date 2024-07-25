@@ -38,9 +38,9 @@
   </div>
 </template>
 
-<script setup>
-import {getToken} from "@/utils/auth.js";
-
+<script setup lang="ts">
+import {getToken} from "@/utils/auth";
+import {getCurrentInstance,computed,ref,watch} from "vue"
 const props = defineProps({
   modelValue: [String, Object, Array],
   // 数量限制
@@ -65,7 +65,7 @@ const props = defineProps({
   }
 });
 
-const {proxy} = getCurrentInstance();
+const {proxy} = getCurrentInstance()!;
 const emit = defineEmits();
 const number = ref(0);
 const uploadList = ref([]);

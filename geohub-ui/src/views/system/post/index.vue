@@ -147,7 +147,7 @@
 <script setup name="Post">
 import { listPost, addPost, delPost, getPost, updatePost } from "@/api/system/post";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
 
 const postList = ref([]);

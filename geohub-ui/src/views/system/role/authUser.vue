@@ -96,7 +96,7 @@ import selectUser from "./selectUser";
 import { allocatedUserList, authUserCancel, authUserCancelAll } from "@/api/system/role";
 
 const route = useRoute();
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
 
 const userList = ref([]);

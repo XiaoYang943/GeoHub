@@ -8,7 +8,8 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import {computed,ref,onMounted} from "vue"
 const props = defineProps({
   src: {
     type: String,

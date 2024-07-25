@@ -14,8 +14,8 @@
 
 <script>
   import { provide, ref, onUnmounted, getCurrentInstance } from 'vue'
-  import Uploader from 'simple-uploader.js'
-  import { kebabCase } from '../../common/utils.js'
+  import Uploader from 'simple-uploader'
+  import { kebabCase } from '../../common/utils'
   import UploaderBtn from './btn.vue'
   import UploaderDrop from './drop.vue'
   import UploaderUnsupport from './unsupport.vue'
@@ -79,7 +79,7 @@
       const started = ref(false)
       const files = ref([])
       const fileList = ref([])
-      const instance = getCurrentInstance()
+      const instance = getCurrentInstance()!
       let uploader = new Uploader(props.options)
       const uploadStart = () => {
         started.value = true

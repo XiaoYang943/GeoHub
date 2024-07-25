@@ -34,7 +34,8 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import {computed,ref} from "vue"
 const props = defineProps({
   /* 是否显示检索条件 */
   showSearch: {

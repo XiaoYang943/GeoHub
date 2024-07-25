@@ -713,7 +713,7 @@
                 <li>升级core-js到最新版本3.8.1</li>
                 <li>升级echarts到最新版本4.9.0</li>
                 <li>升级file-saver到最新版本2.0.4</li>
-                <li>升级fuse.js到最新版本6.4.3</li>
+                <li>升级fuse到最新版本6.4.3</li>
                 <li>升级js-beautify到最新版本1.13.0</li>
                 <li>升级js-cookie到最新版本2.2.1</li>
                 <li>升级path-to-regexp到最新版本6.2.0</li>
@@ -944,7 +944,7 @@
                 <li>修复上传头像控制台出现异常</li>
                 <li>修改用户管理分页不正确的问题</li>
                 <li>修复验证码记录提示错误</li>
-                <li>修复request.js缺少Message引用</li>
+                <li>修复request缺少Message引用</li>
                 <li>修复表格时间为空出现的异常</li>
                 <li>添加Jackson日期反序列化时区配置</li>
                 <li>调整根据用户权限加载菜单数据树形结构</li>

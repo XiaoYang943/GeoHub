@@ -15,14 +15,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import useAppStore from "@/store/modules/app";
-
+import {getCurrentInstance,computed,ref} from "vue"
+import {useRoute, useRouter} from "vue-router";
 const appStore = useAppStore();
 const size = computed(() => appStore.size);
 const route = useRoute();
 const router = useRouter();
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()!;
 const sizeOptions = ref([
   { label: "较大", value: "large" },
   { label: "默认", value: "default" },

@@ -18,12 +18,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import usePermissionStore from '@/store/modules/permission'
 import {getNormalPath} from '@/utils/ruoyi'
-import {isHttp} from '@/utils/validate.js'
-import Fuse from 'fuse.js'
-
+import {isHttp} from '@/utils/validate'
+import Fuse from 'fuse'
+import {computed,ref,nextTick,onMounted,watch,watchEffect} from "vue"
+import {useRouter} from "vue-router";
 const search = ref('');
 const options = ref([]);
 const searchPool = ref([]);

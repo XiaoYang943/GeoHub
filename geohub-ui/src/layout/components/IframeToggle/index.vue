@@ -8,14 +8,15 @@
   ></inner-link>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import InnerLink from "../InnerLink/index";
 import useTagsViewStore from "@/store/modules/tagsView";
+import {useRoute} from "vue-router";
 
 const route = useRoute();
 const tagsViewStore = useTagsViewStore();
 
-function iframeUrl(url, query) {
+function iframeUrl(url:string, query:any) {
   if (Object.keys(query).length > 0) {
     let params = Object.keys(query).map((key) => key + "=" + query[key]).join("&");
     return url + "?" + params;
